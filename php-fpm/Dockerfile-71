@@ -345,6 +345,16 @@ ADD ./laravel.ini /usr/local/etc/php/conf.d
 ADD ./xlaravel.pool.conf /usr/local/etc/php-fpm.d/
 
 #RUN rm -r /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y libc-client-dev libkrb5-dev && rm -r /var/lib/apt/lists/*
+RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl && docker-php-ext-install imap
+
+# MSSQL Server Driver
+#RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+#RUN curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
+#RUN apt-get update
+#RUN ACCEPT_EULA=Y apt-get install msodbcsql
+RUN pecl install sqlsrv-5.1.2preview
+RUN pecl install pdo_sqlsrv-5.1.2preview
 
 RUN usermod -u 1000 www-data
 

@@ -680,12 +680,18 @@ RUN if [ ${INSTALL_DUSK_DEPS} = true ]; then \
 #--------------------------------------------------------------------------
 #
 
-#RUN apt-get update && apt-get install -y libc-client-dev libkrb5-dev && rm -r /var/lib/apt/lists/*
-#RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl && docker-php-ext-install imap
 RUN apt-get -y install php7.0-imap
 RUN apt-get -y install zbar-tools
 RUN apt-get -y install imagemagick
 RUN apt-get -y install tesseract-ocr tesseract-ocr-por tesseract-ocr-eng
+
+# MSSQL Server Driver
+#RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+#RUN curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
+#RUN apt-get update
+#RUN ACCEPT_EULA=Y apt-get install msodbcsql
+RUN pecl install sqlsrv-5.1.2preview
+RUN pecl install pdo_sqlsrv-5.1.2preview
 
 # Clean up
 USER root
